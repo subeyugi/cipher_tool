@@ -1,4 +1,5 @@
 # encode: utf-8
+from itertools import permutations
 from enum import Enum
 
 #table / hashmap
@@ -539,3 +540,9 @@ class CipherObject:
             for enc, ad, l, r in zip(encodes, adds, ls, rs):
                 print(f"{"-"+ad+" "+enc:14s} ", end="")
                 CipherObject(self.val).encode_to_hex(enc).split(r).substr(l, r).join().print()
+
+    def decode_morseJP_bruteforce(self, letter='・－　'):
+        print("decode_morseJP_bruteforce")
+        for l in permutations(letter, 3):
+            print(f"{"".join(l):3s} ", end="")
+            CipherObject(self.val).decode_morseJP(letter="".join(l)).print()
