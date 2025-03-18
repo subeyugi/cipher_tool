@@ -39,8 +39,8 @@ print("\n[sample 8]")
 sample8 = CipherObject("7783921599188497342462197636138661522987162")
 sample8.to_list_int().add(-1).from_base_n(9).to_base_n(16).decode_from_hex_bruteforce() #... +82 shift-jis  <Str,17> わたしをみつめるめとおかえりのこえ ... 
 
-print("\n[sample 9]")
 # 混合（反転モールス、みかか、36進数、文字追加、2タッチ）
+print("\n[sample 9]")
 sample9 = CipherObject("－・・　・・－－　・・－－　・・－・・　－・・　・－－・・　・－－・・　－－－－　・－・・・")
 base36 = sample9.decode_morseJP("－・　").encode_mikaka().to_int().to_base_n(36).print() #<Str,6> by3327
 base36 = base36.substr(2, 6).insert(1, "", "1").decode_two_touch().print() #<Str,4> ささかま
