@@ -177,38 +177,44 @@ class CipherObject:
         self.error_message(f'\n<{type(self.val).__name__}>{self.val}.list_to_str()')
 
     def decode_from_hex(self, code_type: str):
-        if self.type == T.Str:
-            s = self.val
-            if code_type == 'utf-16':
-                now = ''
-                result = ''
-                for i in range(0, len(s), 4):
-                    now += s[i:i+4]
-                    try:
-                        result += chr(int(now, 16))
-                    except:
-                        result += '�'
+        try:
+            if self.type == T.Str:
+                s = self.val
+                if code_type == 'utf-16':
                     now = ''
-                return CipherObject(result)
-            else:
-                b = bytes.fromhex(s)
-                return CipherObject(b.decode(encoding=code_type, errors='replace'))
-        elif self.type == T.Li_obj:
-            return CipherObject([e.decode_from_hex(code_type) for e in self.val])
+                    result = ''
+                    for i in range(0, len(s), 4):
+                        now += s[i:i+4]
+                        try:
+                            result += chr(int(now, 16))
+                        except:
+                            result += '�'
+                        now = ''
+                    return CipherObject(result)
+                else:
+                    b = bytes.fromhex(s)
+                    return CipherObject(b.decode(encoding=code_type, errors='replace'))
+            elif self.type == T.Li_obj:
+                return CipherObject([e.decode_from_hex(code_type) for e in self.val])
+        except:
+            return CipherObject("")
         self.error_message(f'\n<{type(self.val).__name__}>{self.val}.decode_from_hex(<{type(code_type).__name__}>{code_type})')
 
     def encode_to_hex(self, code_type: str):
-        if self.type == T.Str:
-            s = self.val
-            if code_type == 'utf-16':
-                result = ''
-                for e in s:
-                    result += hex(ord(e))[2:]
-                return CipherObject(result)
-            else:
-                return CipherObject(s.encode(encoding=code_type, errors='replace').hex())
-        elif self.type == T.Li_obj:
-            return CipherObject([e.encode_to_hex(code_type=code_type) for e in self.val])
+        try:
+            if self.type == T.Str:
+                s = self.val
+                if code_type == 'utf-16':
+                    result = ''
+                    for e in s:
+                        result += hex(ord(e))[2:]
+                    return CipherObject(result)
+                else:
+                    return CipherObject(s.encode(encoding=code_type, errors='replace').hex())
+            elif self.type == T.Li_obj:
+                return CipherObject([e.encode_to_hex(code_type=code_type) for e in self.val])
+        except:
+            return CipherObject("")
         self.error_message(f'\n<{type(self.val).__name__}>{self.val}.encode(<{type(code_type).__name__}>{code_type})')
 
     def encode_morseJP(self, letter='・－　'):
